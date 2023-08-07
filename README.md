@@ -16,3 +16,7 @@
     - работа с постом (services)
     - выкладка в группу (vk)
 
+
+Subreddits:
+    :qx:qa
+    :qa
