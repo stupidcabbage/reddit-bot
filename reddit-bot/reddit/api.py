@@ -1,10 +1,12 @@
 import praw
+from services.translate import translate_text as _
 from dotenv import load_dotenv
 import os
 
-load_dotenv()
+from typing import List
 
-SUBREDDITS = ["FortniteLeaks"]
+
+load_dotenv()
 
 reddit = praw.Reddit(
         client_id=os.getenv("REDDIT_CLIENT_ID"),
@@ -13,13 +15,35 @@ reddit = praw.Reddit(
         user_agent=os.getenv("REDDIT_USER_AGENT")
         )
 
-for sreddit in SUBREDDITS:
-    posts = reddit.subreddit(sreddit).new(limit=10)
+
+def get_media_from_post(post) -> List[str]:
+    """Возвращает все медиа файлы из поста."""
+    media_url = []
+    if post.secure_media:
+        return [post.secure_media['reddit_video']['fallback_url']]
+    elif hasattr(post, "preview"):
+        for media in post.preview['images']:
+            media_url.append(media['source']['url'])
+        return media_url
+    elif hasattr(post, "media_metadata"):
+        for media in post.media_metadata:
+            media_url.append(post.media_metadata[media]['s']['u'])
+        return media_url
+    return []
+
+
+def get_new_posts_from_subreddit(sreddit: str, limit: int=5):
+    """Возвращает список новых постов с сабреддита."""
+    posts = reddit.subreddit(sreddit).new(limit=limit)
+    posts_stack = []
     for post in posts:
-        print("TITLE: ", post.title)
-        print("DESCRIPTION: ", post.selftext)
-        try: media_data = post.media_metadata
-        except AttributeError: media_data = None
-        if media_data:
-            for media in media_data:
-                print("MEDIA: ", media_data[media]['s']['u'])
+        title = _(post.title)
+        description = _(post.selftext)
+        media_url = get_media_from_post(post)
+        posts_stack.append(
+                {"title": title,
+                 "description": description,
+                 "media": media_url}
+                )
+    return posts_stack
+
