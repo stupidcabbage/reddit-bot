@@ -21,5 +21,8 @@
 
 
 Subreddits:
-    :qx:qa
-    :qa
+
+    - FortniteMemes | Мемы Фортнайт
+    - FortNiteBR | Мемы (раздел HUMOR) | клипы (раздел CLIP)
+    - Fortnite Competitive | Раздел для киберспортсменов. Стоит создать отдельную группу
+    - FortniteLeaks | Сливы обновлений и т.п.
