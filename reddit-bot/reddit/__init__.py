@@ -2,8 +2,10 @@ import os
 
 import praw
 from dotenv import load_dotenv
-from config import (REDDIT_CLIENT_ID, REDDIT_SECRET_ID,
-                    REDDIT_REDIRECT_URI, REDDIT_USER_AGENT)
+
+from config import (REDDIT_CLIENT_ID, REDDIT_REDIRECT_URI, REDDIT_SECRET_ID,
+                    REDDIT_USER_AGENT)
+
 load_dotenv()
 
 reddit = praw.Reddit(
