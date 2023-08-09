@@ -1,9 +1,5 @@
 import os
-
-from pathlib import Path
-
-
-BASE_DIR = Path(__file__).resolve().parent.parent
+from config import BASE_DIR
 
 
 async def delete_file(filename: str, path: str = f"{BASE_DIR}/media/") -> None:

@@ -1,16 +1,19 @@
+import sys
+
 import requests
+from loguru import logger
 from requests_toolbelt.multipart.encoder import MultipartEncoder
 from vkbottle import API
 
-from reddit.classes import Media, Post
+from config import BASE_DIR, VK_GROUP_ID, VK_TOKEN
+from reddit.classes import Media
 from services.download_photo import download_medias
 from services.file import delete_file
 
-
-from . import BASE_DIR, VK_GROUP_ID, VK_TOKEN
-
 api = API(token=VK_TOKEN)
 
+logger.remove()
+logger.add(sys.stderr, level="INFO")
 
 async def upload_media_files_to_vk_servers(medias: list[Media]) -> list[int]:
     """Функция скачивает медиафайлы с стороннего сервера по ссылке,

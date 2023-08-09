@@ -1,8 +1,15 @@
 import asyncio
+import sys
+import time
+
+from loguru import logger
 
 from reddit.api import get_new_posts_from_subreddit as gs
-from vk import VK_OWNER_ID, VK_USER_ID
+from config import VK_OWNER_ID, VK_USER_ID
 from vk.api import api, upload_media_files_to_vk_servers
+
+logger.remove()
+logger.add(sys.stderr, level="INFO")
 posts = gs(sreddit="FortniteLeaks", limit=20)
 
 async def test(post):
@@ -18,6 +25,15 @@ async def test(post):
         await api.wall.post(owner_id=-220785898,
                             message=post.title)
 
-for post in posts:
-    asyncio.get_event_loop().run_until_complete(test(post))
+all_posts = []
 
+while True:
+    posts = gs(sreddit="FortniteLeaks", limit=1)
+    for post in posts:
+        if post not in all_posts:
+            all_posts.append(post)
+            asyncio.get_event_loop().run_until_complete(test(post))
+        else:
+            logger.warning("No that try")
+    time.sleep(10)
+    logger.warning(all_posts)

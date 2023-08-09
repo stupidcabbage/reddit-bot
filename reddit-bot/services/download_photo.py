@@ -1,12 +1,9 @@
-from pathlib import Path
-
 import aiofiles
 import aiohttp
 
 from reddit.api import Media
 
-BASE_DIR = Path(__file__).resolve().parent.parent
-
+from config import BASE_DIR
 
 async def download_medias(medias: list[Media]) -> None:
     """Скачивает и сохраняет множество медиафайлов из источников."""
