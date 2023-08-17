@@ -7,7 +7,7 @@ from loguru import logger
 from config import VK_OWNER_ID, VK_USER_ID
 from reddit.api import get_new_posts_from_subreddit as gs
 from vk.api import api, upload_media_files_to_vk_servers
-
+from services.subreddits import get_all_subreddits_without_posts as get_subr
 logger.remove()
 logger.add(sys.stderr, level="INFO")
 posts = gs(sreddit="FortniteLeaks", limit=20)
@@ -28,6 +28,7 @@ async def test(post):
 all_posts = []
 
 while True:
+    subreddits = get_subr()
     posts = gs(sreddit="FortniteLeaks", limit=1)
     for post in posts:
         if post not in all_posts:
