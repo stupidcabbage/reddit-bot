@@ -4,7 +4,7 @@ from services.translate import translate_text as _
 from . import reddit
 
 
-def get_media_from_post(post) -> list[Media]:
+async def get_media_from_post(post) -> list[Media]:
     """Возвращает все медиа файлы из поста."""
     media_url = []
     if post.secure_media: # Сохранение ссылки видео
@@ -35,15 +35,15 @@ def get_media_from_post(post) -> list[Media]:
     return []
 
 
-def get_new_posts_from_subreddit(sreddit: str,
-                                 limit: int=5) -> list[Post]:
+async def get_new_posts_from_subreddit(sreddit: str,
+                                       limit: int=5) -> list[Post]:
     """Возвращает список новых постов с сабреддита."""
-    reddit_posts = reddit.subreddit(sreddit).new(limit=limit)
+    reddit_posts = await reddit.subreddit(sreddit)
     posts = []
-    for post in reddit_posts:
+    async for post in reddit_posts.new(limit=limit):
         title = _(post.title)
         description = _(post.selftext)
-        media = get_media_from_post(post)
+        media = await get_media_from_post(post)
         posts.append(Post(title=title, description=description, media=media))
     return posts
 

@@ -1,5 +1,4 @@
-import os
-
+import asyncpraw
 import praw
 from dotenv import load_dotenv
 
@@ -8,7 +7,7 @@ from config import (REDDIT_CLIENT_ID, REDDIT_REDIRECT_URI, REDDIT_SECRET_ID,
 
 load_dotenv()
 
-reddit = praw.Reddit(
+reddit = asyncpraw.Reddit(
         client_id=REDDIT_CLIENT_ID,
         client_secret=REDDIT_SECRET_ID,
         redirect_uri=REDDIT_REDIRECT_URI,

@@ -12,6 +12,7 @@ logger.remove()
 logger.add(sys.stderr, level="INFO")
 posts = gs(sreddit="FortniteLeaks", limit=20)
 
+
 async def test(post):
     attachments = ''
     if post.media:
@@ -26,15 +27,19 @@ async def test(post):
                             message=post.title)
 
 all_posts = []
+async def main():
+    logger.critical('test')
+    while True:
+        subreddits = await get_subr()
+        for subreddit in subreddits:
+            posts = await gs(sreddit=subreddit.name, limit=1)
+            for post in posts:
+                if post not in all_posts:
+                    all_posts.append(post)
+                    await test(post)
+                else:
+                    logger.warning("No that try")
+            time.sleep(10)
+            logger.warning(all_posts)
 
-while True:
-    subreddits = get_subr()
-    posts = gs(sreddit="FortniteLeaks", limit=1)
-    for post in posts:
-        if post not in all_posts:
-            all_posts.append(post)
-            asyncio.get_event_loop().run_until_complete(test(post))
-        else:
-            logger.warning("No that try")
-    time.sleep(10)
-    logger.warning(all_posts)
+asyncio.get_event_loop().run_until_complete(main())
