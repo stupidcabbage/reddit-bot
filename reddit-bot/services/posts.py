@@ -1,11 +1,10 @@
 from dataclasses import dataclass
+from typing import Iterable, LiteralString
 
 from db import execute, fetch_all, fetch_one
-
 from services.flairs import Flair
-from services.subreddits import Subreddit
 from services.medias import Media
-from typing import Iterable, LiteralString
+from services.subreddits import Subreddit
 
 
 @dataclass

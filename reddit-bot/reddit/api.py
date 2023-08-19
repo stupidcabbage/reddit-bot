@@ -1,9 +1,10 @@
-from services.translate import translate_text as _
-from services.posts import Post, insert_post
-from services.medias import Media, insert_media
-from services.subreddits import Subreddit
-from services.flairs import Flair
 from typing import Iterable
+
+from services.flairs import Flair
+from services.medias import Media, insert_media
+from services.posts import Post, insert_post
+from services.subreddits import Subreddit
+from services.translate import translate_text as _
 
 from . import reddit
 

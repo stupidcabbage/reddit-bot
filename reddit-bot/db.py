@@ -1,9 +1,9 @@
 import asyncio
-
-from pathlib import Path
-import aiosqlite
-from typing import LiteralString, Any
 from collections.abc import Iterable
+from pathlib import Path
+from typing import Any, LiteralString
+
+import aiosqlite
 
 BASE_DIR = Path(__file__).resolve().parent
 

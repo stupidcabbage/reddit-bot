@@ -1,9 +1,8 @@
 import asyncpraw
 import praw
-from dotenv import load_dotenv
-
 from config import (REDDIT_CLIENT_ID, REDDIT_REDIRECT_URI, REDDIT_SECRET_ID,
                     REDDIT_USER_AGENT)
+from dotenv import load_dotenv
 
 load_dotenv()
 

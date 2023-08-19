@@ -2,7 +2,6 @@ from dataclasses import dataclass
 from typing import Iterable
 
 from db import fetch_all
-
 from services.flairs import Flair
 
 

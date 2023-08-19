@@ -1,9 +1,12 @@
-import asyncio 
+import asyncio
 
-from db import execute, fetch_one, close_db, _async_close_db, fetch_all
-from services.subreddits import Subreddit, get_all_subreddits_without_posts as gs
-from services.posts import insert_post, post_is_exists, Post, _get_post_base_sql, NoDBPost, _get_post_from_db
+from db import _async_close_db, close_db, execute, fetch_all, fetch_one
 from services.flairs import Flair
+from services.posts import (NoDBPost, Post, _get_post_base_sql,
+                            _get_post_from_db, insert_post, post_is_exists)
+from services.subreddits import Subreddit
+from services.subreddits import get_all_subreddits_without_posts as gs
+
 
 async def test_function_with_db(sql):
     try:

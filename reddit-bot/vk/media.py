@@ -1,9 +1,9 @@
 import requests
 from config import BASE_DIR, VK_GROUP_ID
-from services.medias import Media
 from requests_toolbelt.multipart.encoder import MultipartEncoder
 from services.download_photo import download_medias
 from services.file import delete_file
+from services.medias import Media
 from vk.vk_config import api
 
 
