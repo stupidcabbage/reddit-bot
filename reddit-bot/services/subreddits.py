@@ -1,22 +1,25 @@
 from dataclasses import dataclass
-from services.flairs import Flair
-from services.posts import Post
+from typing import Iterable
+
 from db import fetch_all
+
+from services.flairs import Flair
 
 
 @dataclass
 class Subreddit:
     id: int
     name: str
-    posts: list[Post] | None
-    flairs: list[Flair] | None
+    flairs: Iterable[Flair] | None
 
 
-async def get_all_subreddits_without_posts() -> list[Subreddit] | None:
+async def get_all_subreddits_without_posts() -> Iterable[Subreddit] | None:
+    """Возвращает все сабреддиты без постов."""
     sql = """
-    SELECT s.*, f.id AS flair_id, f.name AS flair_name
+    SELECT s.*, f.name AS flair_name
     FROM subreddits s
-    LEFT JOIN flairs f ON s.id=f.subreddit_id;"""
+    LEFT JOIN flairs f ON s.id=f.subreddit_id;
+    """
     subreddits = await fetch_all(sql)
     if not subreddits:
         return None
@@ -24,7 +27,7 @@ async def get_all_subreddits_without_posts() -> list[Subreddit] | None:
     return await _build_subreddits(subreddits)
 
 
-async def _build_subreddits(db_subreddits: list[dict]) -> list[Subreddit]:
+async def _build_subreddits(db_subreddits: list[dict]) -> Iterable[Subreddit]:
     subreddits = []
     for subreddit in db_subreddits:
         subr = _build_subreddit(subreddit)
@@ -37,14 +40,12 @@ async def _build_subreddits(db_subreddits: list[dict]) -> list[Subreddit]:
 
 
 def _build_subreddit(subreddit_db_rows: dict,
-                     flair: Flair | None = None)-> Subreddit:
+                     flair: Flair | None = None) -> Subreddit:
     if subreddit_db_rows.get("flair_name"):
-        flair = Flair(id=subreddit_db_rows["flair_id"],
-                      name=subreddit_db_rows["flair_name"])
+        flair = Flair(name=subreddit_db_rows["flair_name"])
     return Subreddit(
             id=subreddit_db_rows["id"],
             name=subreddit_db_rows["name"],
-            posts=None,
             flairs=[flair]
             )
         

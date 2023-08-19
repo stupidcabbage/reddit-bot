@@ -1,32 +1,33 @@
 create table if not exists subreddits(
-  id integer primary key,
+  id integer primary key autoincrement,
   name text
 );
 
 
 create table if not exists flairs(
-  id integer primary key,
-  name text,
+  name text primary key,
   subreddit_id integer,
   foreign key(subreddit_id) references subreddits(id)
 );
 
 
 create table if not exists posts(
-  id integet primary key,
+  id integer primary key autoincrement,
   title text,
   description text,
-  flair_id integer null,
+  flair_name text null,
+  subreddit_id integer not null,
   created_at timestamp default current_timestamp not null,
-  foreign key(flair_id) references flairs(id)
+  foreign key(subreddit_id) references subreddits(id),
+  unique(title, description)
 );
 
 
 create table if not exists medias(
-  id integer primary key,
   filename text,
-  media_url text,
+  media_url text unique,
   file_type text,
+  server_media_id integer,
   post_id integer,
   foreign key(post_id) references posts(id)
 );

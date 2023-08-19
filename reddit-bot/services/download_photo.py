@@ -1,6 +1,5 @@
 import aiofiles
 import aiohttp
-
 from config import BASE_DIR
 from reddit.api import Media
 
