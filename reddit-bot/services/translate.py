@@ -1,8 +1,9 @@
-from googletrans import Translator
+import async_google_trans_new
 
-translator = Translator()
 
-def translate_text(text: str, dest: str="ru") -> str:
+async def translate_text(text: str="Text is`t defined", dest: str="ru") -> str:
     """Переводит предоставленный текст с любого языка на любой язык.
     Без передачи параметра dest - на русский."""
-    return translator.translate(text, dest).text
+    translator = async_google_trans_new.AsyncTranslator()
+
+    return await translator.translate(text, dest)

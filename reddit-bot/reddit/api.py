@@ -15,8 +15,8 @@ async def get_new_posts_from_subreddit(subreddit: Subreddit,
     reddit_posts = await reddit.subreddit(subreddit.name)
     posts = []
     async for post in reddit_posts.new(limit=limit):
-        title = _(post.title)
-        description = _(post.selftext)
+        title = await _(post.title)
+        description = await _(post.selftext)
         flair = Flair(post.link_flair_text)
 
         db_post = await insert_post(title, description, subreddit, flair)
