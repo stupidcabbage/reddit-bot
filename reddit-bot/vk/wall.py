@@ -1,8 +1,9 @@
+from typing import Iterable, LiteralString
+
+from config import VK_GROUP_ID, VK_OWNER_ID, VK_USER_ID
+from services.posts import Post, assign_post_is_published
 from vk.media import upload_media_files_to_vk_servers
 from vk.vk_config import api
-from config import VK_OWNER_ID, VK_USER_ID, VK_GROUP_ID
-from typing import LiteralString, Iterable
-from services.posts import Post, assign_post_is_published
 
 
 async def publish_post(post: Post,

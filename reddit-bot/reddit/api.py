@@ -29,30 +29,29 @@ async def get_new_posts_from_subreddit(subreddit: Subreddit,
 async def _get_media_from_post(post, db_post) -> Iterable[Media] | None:
     """Возвращает все медиа файлы из поста."""
     media_url = []
-    if hasattr(post.secure_media, "reddit_video"):  # Сохранение ссылки видео
-        file = post.secure_media[
-                "reddit_video"]["scrubber_media_url"].split("/")
-        url = post.secure_media["reddit_video"]["fallback_url"]
+    if post.is_video:
+        url = post.media["reddit_video"]["fallback_url"]
+        filename = post.media["reddit_video"]["scrubber_media_url"].split(
+                "/")[-1]
         media_url.append(Media(
             media_url=url,
-            filename=file[-1],
+            filename=filename,
             file_type="video"))
-    elif hasattr(post, "preview"):
-        for media in post.preview['images']:
-            url = media["source"]["url"]
-            file = url.split("?auto")[0].split("/")
+    elif hasattr(post, "is_gallery") and post.is_gallery:
+        for x in post.gallery_data["items"]:
+            media_id = x["media_id"]
+            extension = post.media_metadata[media_id]["m"].split("/")[-1]
             media_url.append(Media(
-                media_url=url,
-                filename=file[-1],
-                file_type="image"))
-    elif hasattr(post, "media_metadata"):
-        for media in post.media_metadata:
-            url = post.media_metadata[media]['s']['u']
-            filename = url.split("?auto")[0].split("/")[3].split("?")[0]
-            media_url.append(Media(
-                media_url=url,
-                filename=filename,
-                file_type="image"))
+                media_url=f"https://i.redd.it/{media_id}.{extension}",
+                filename=f"{media_id}.{extension}",
+                file_type="image"
+                ))
+    elif hasattr(post, "post_hint") and post.post_hint == "image":
+        media_url.append(Media(
+            media_url=post.url,
+            filename=post.url.split("/")[-1],
+            file_type=post.post_hint
+            ))
     for media in media_url:
         await insert_media(db_post, media)
     return media_url

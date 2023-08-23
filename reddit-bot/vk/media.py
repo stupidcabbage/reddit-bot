@@ -1,3 +1,5 @@
+from typing import Iterable
+
 import requests
 from config import BASE_DIR, VK_GROUP_ID
 from requests_toolbelt.multipart.encoder import MultipartEncoder
@@ -5,7 +7,6 @@ from services.download_photo import download_medias
 from services.file import delete_file
 from services.medias import Media
 from vk.vk_config import api
-from typing import Iterable
 
 
 async def upload_media_files_to_vk_servers(medias: Iterable[Media]) -> list[int]:
