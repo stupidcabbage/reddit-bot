@@ -5,9 +5,10 @@ from services.download_photo import download_medias
 from services.file import delete_file
 from services.medias import Media
 from vk.vk_config import api
+from typing import Iterable
 
 
-async def upload_media_files_to_vk_servers(medias: list[Media]) -> list[int]:
+async def upload_media_files_to_vk_servers(medias: Iterable[Media]) -> list[int]:
     """
     Функция скачивает медиафайлы с стороннего сервера по ссылке,
     затем заливает данные медиафайлы на сервера ВКонтакте.
@@ -21,7 +22,7 @@ async def upload_media_files_to_vk_servers(medias: list[Media]) -> list[int]:
     return ids
 
 
-async def upload_medias(medias: list[Media]) -> list[int]:
+async def upload_medias(medias: Iterable[Media]) -> list[int]:
     """Загружает полученные медиафайлы на сервер
     и возвращает их ID на сервере."""
     ids = []
@@ -42,7 +43,7 @@ async def upload_medias(medias: list[Media]) -> list[int]:
         return ids
 
 
-def upload_photo_to_server(url: str, medias: list[Media]) -> dict:
+def upload_photo_to_server(url: str, medias: Iterable[Media]) -> dict:
     """Передает файлы на сервер, используя ссылку,
     полученную в get_wall_upload_server."""
     mp_encoder = encoding_images(medias)
@@ -54,7 +55,7 @@ def upload_photo_to_server(url: str, medias: list[Media]) -> dict:
     return response.json()
 
 
-def encoding_images(medias: list[Media]) -> MultipartEncoder:
+def encoding_images(medias: Iterable[Media]) -> MultipartEncoder:
     """Формирует словарь изображений для передачи в запросе."""
     images = {}
     for i, media in enumerate(medias):

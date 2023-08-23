@@ -16,6 +16,7 @@ class Post:
     subreddit: Subreddit
     created_at: str
     media: Iterable[Media] | None
+    is_published: bool = False
 
 
 async def insert_post(title: str,
@@ -35,14 +36,20 @@ async def insert_post(title: str,
    return await get_post_from_db(title, description, subreddit)
 
 
-async def post_is_exists(post: Post) -> bool:
-    result = await fetch_one("""
-    SELECT count(*)
-    FROM posts
-    WHERE title=:title and subreddit_id=:subreddit_id;""",
-    {"title": post.title,
-     "subreddit_id": post.subreddit.id})
-    return bool(result)
+async def assign_post_is_published(post: Post) -> None:
+    await execute("UPDATE posts SET is_published=true WHERE id=:id",
+                  {"id": post.id})
+
+
+async def is_post_published(post: Post) -> bool:
+    result = await fetch_one(
+            """
+            SELECT count(*)
+            FROM posts
+            WHERE id=:id AND is_published=true;
+            """,
+            {"id": post.id})
+    return bool(result["count(*)"])
 
 
 async def get_post_from_db(title: str,
@@ -93,7 +100,8 @@ def _get_post_base_sql(
             p.title, p.description,
             p.flair_name, p.created_at,
             m.filename, m.media_url,
-            m.file_type, m.server_media_id
+            m.file_type, m.server_media_id,
+            p.is_published
         FROM posts p
         LEFT JOIN subreddits s ON p.subreddit_id=s.id
         LEFT JOIN medias m ON m.post_id=p.id

@@ -18,6 +18,7 @@ create table if not exists posts(
   flair_name text null,
   subreddit_id integer not null,
   created_at timestamp default current_timestamp not null,
+  is_published boolean default false not null,
   foreign key(subreddit_id) references subreddits(id),
   unique(title, description)
 );

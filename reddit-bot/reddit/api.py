@@ -10,7 +10,7 @@ from . import reddit
 
 
 async def get_new_posts_from_subreddit(subreddit: Subreddit,
-                                       limit: int=5) -> list[Post]:
+                                       limit: int=5) -> Iterable[Post]:
     """Возвращает список новых постов с сабреддита."""
     reddit_posts = await reddit.subreddit(subreddit.name)
     posts = []
@@ -29,7 +29,7 @@ async def get_new_posts_from_subreddit(subreddit: Subreddit,
 async def _get_media_from_post(post, db_post) -> Iterable[Media] | None:
     """Возвращает все медиа файлы из поста."""
     media_url = []
-    if post.secure_media: # Сохранение ссылки видео
+    if hasattr(post.secure_media, "reddit_video"):  # Сохранение ссылки видео
         file = post.secure_media[
                 "reddit_video"]["scrubber_media_url"].split("/")
         url = post.secure_media["reddit_video"]["fallback_url"]
