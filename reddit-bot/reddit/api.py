@@ -10,7 +10,7 @@ from . import reddit
 
 
 async def get_new_posts_from_subreddit(subreddit: Subreddit,
-                                       limit: int=5) -> Iterable[Post]:
+                                       limit: int = 5) -> Iterable[Post]:
     """Возвращает список новых постов с сабреддита."""
     reddit_posts = await reddit.subreddit(subreddit.name)
     posts = []

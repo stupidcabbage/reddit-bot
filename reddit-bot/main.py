@@ -4,7 +4,7 @@ import time
 
 from loguru import logger
 from reddit.api import get_new_posts_from_subreddit as gs
-from services.posts import assign_post_is_published, is_post_published
+from services.posts import is_post_published
 from services.subreddits import get_all_subreddits_without_posts as get_subr
 from vk.wall import publish_post
 
@@ -16,10 +16,10 @@ async def main():
     while True:
         subreddits = await get_subr()
         for subreddit in subreddits:
-            posts = await gs(subreddit, limit=50)
+            posts = await gs(subreddit, limit=10)
             for post in posts:
                 if not await is_post_published(post):
-                    await publish_post(post) 
+                    await publish_post(post)
                 else:
                     logger.warning(f"Post: {post.title} from {post.subreddit.name} is exists")
             time.sleep(10)

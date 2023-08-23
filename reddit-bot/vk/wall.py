@@ -1,9 +1,11 @@
 from typing import Iterable, LiteralString
 
-from config import VK_GROUP_ID, VK_OWNER_ID, VK_USER_ID
+from config import VK_GROUP_ID, VK_OWNER_ID, VK_USER_ID, TEMPLATES_DIR
 from services.posts import Post, assign_post_is_published
 from vk.media import upload_media_files_to_vk_servers
 from vk.vk_config import api
+from templates import render_template
+from os import path
 
 
 async def publish_post(post: Post,
@@ -12,11 +14,16 @@ async def publish_post(post: Post,
         if post.media:
             ids = await upload_media_files_to_vk_servers(post.media)
             attachments = _make_attachment_string(post, ids)
+            message = await _render_message(post)
         await api.wall.post(owner_id=-220785898,
-                            message=post.title,
+                            message=message,
                             attachments=attachments)
     finally:
         await assign_post_is_published(post)
+
+
+async def _render_message(post: Post) -> str:
+    return await render_template("base.j2", {"post": post})
 
 
 def _make_attachment_string(post: Post, 
