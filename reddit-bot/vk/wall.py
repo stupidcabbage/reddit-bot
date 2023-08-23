@@ -9,12 +9,12 @@ from os import path
 
 
 async def publish_post(post: Post,
-                       attachments: Iterable[str] | None = None ):
+                       attachments: Iterable[str] | None = None):
     try:
         if post.media:
             ids = await upload_media_files_to_vk_servers(post.media)
             attachments = _make_attachment_string(post, ids)
-            message = await _render_message(post)
+        message = await _render_message(post)
         await api.wall.post(owner_id=-220785898,
                             message=message,
                             attachments=attachments)

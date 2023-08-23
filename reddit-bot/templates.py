@@ -7,8 +7,9 @@ async def render_template(template_name: str, data: dict | None = None) -> str:
     if data is None:
         data = {}
     template = (await _get_template_env()).get_template(template_name)
-    rendered = await template.render(**data)
+    rendered = await template.render_async(**data)
     rendered = rendered.replace("\n", "").replace("<br>", "\n")
+    del _get_template_env.template_env
     return rendered
 
 
