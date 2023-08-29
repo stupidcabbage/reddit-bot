@@ -3,7 +3,8 @@ from typing import Iterable
 
 from db import fetch_all
 from services.flairs import Flair
-from services.logging import info_logging
+from services.logging import debug_logger, info_logging
+
 
 @dataclass
 class Subreddit:
@@ -27,6 +28,7 @@ async def get_all_subreddits_without_posts() -> Iterable[Subreddit] | None:
     return await _build_subreddits(subreddits)
 
 
+@debug_logger
 async def _build_subreddits(db_subreddits: list[dict]) -> Iterable[Subreddit]:
     subreddits = []
     for subreddit in db_subreddits:

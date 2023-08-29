@@ -28,7 +28,8 @@ async def upload_medias(medias: Iterable[Media]) -> list[int]:
     и возвращает их ID на сервере."""
     ids = []
     if medias[0].file_type == "video":
-        upload_url = await api.video.save(group_id=VK_GROUP_ID)
+        upload_url = await api.video.save(is_private=1,
+                                          privacy_view=0)
         server_info = upload_photo_to_server(upload_url.upload_url, medias)
         return [server_info.get("video_id")]
     elif medias[0].file_type == "image":
