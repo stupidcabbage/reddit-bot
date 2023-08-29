@@ -1,0 +1,9 @@
+{% extends "base.j2" %}
+
+{% block content %}
+🎙 {{ post.title }}
+<br><br>
+{% if post.description %}
+  📫 {{ post.description }}
+{% endif %}
+{% endblock %}

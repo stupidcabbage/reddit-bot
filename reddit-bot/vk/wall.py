@@ -1,14 +1,28 @@
 from typing import Iterable, LiteralString
 
 from config import VK_GROUP_ID, VK_OWNER_ID, VK_USER_ID, TEMPLATES_DIR
-from services.posts import Post, assign_post_is_published
+from services.posts import Post, assign_post_is_published, is_post_published
 from vk.media import upload_media_files_to_vk_servers
 from vk.vk_config import api
 from templates import render_template
 from os import path
+from services.logging import info_logging
 
 
-async def publish_post(post: Post,
+class PostExists(Exception):
+    def __str__(self):
+        return "Post is already exists."
+
+
+@info_logging
+async def publish_post(post: Post):
+    if not await is_post_published(post):
+        await _publish_post(post)
+    else:
+        raise PostExists
+
+
+async def _publish_post(post: Post,
                        attachments: Iterable[str] | None = None):
     try:
         if post.media:
@@ -23,7 +37,11 @@ async def publish_post(post: Post,
 
 
 async def _render_message(post: Post) -> str:
-    return await render_template("base.j2", {"post": post})
+    if post.flair.name:
+        template_name = f"{post.flair.name.lower().replace(' ', '')}{post.subreddit.name.lower().replace(' ', '')}.j2"
+        if path.exists(TEMPLATES_DIR / template_name):
+            return await render_template(template_name, {"post": post})
+    return await render_template("content.j2", {"post": post})
 
 
 def _make_attachment_string(post: Post, 

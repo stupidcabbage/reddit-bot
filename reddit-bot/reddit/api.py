@@ -5,10 +5,12 @@ from services.medias import Media, insert_media
 from services.posts import Post, insert_post
 from services.subreddits import Subreddit
 from services.translate import translate_text as _
+from services.logging import info_logging
 
 from . import reddit
 
 
+@info_logging
 async def get_new_posts_from_subreddit(subreddit: Subreddit,
                                        limit: int = 5) -> Iterable[Post]:
     """Возвращает список новых постов с сабреддита."""

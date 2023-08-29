@@ -3,7 +3,7 @@ from typing import Iterable
 
 from db import fetch_all
 from services.flairs import Flair
-
+from services.logging import info_logging
 
 @dataclass
 class Subreddit:
@@ -12,6 +12,7 @@ class Subreddit:
     flairs: Iterable[Flair] | None
 
 
+@info_logging
 async def get_all_subreddits_without_posts() -> Iterable[Subreddit] | None:
     """Возвращает все сабреддиты без постов."""
     sql = """
