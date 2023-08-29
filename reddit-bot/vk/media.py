@@ -7,6 +7,7 @@ from services.download_photo import download_medias
 from services.file import delete_file
 from services.medias import Media
 from vk.vk_config import api
+import subprocess
 
 
 async def upload_media_files_to_vk_servers(medias: Iterable[Media]) -> list[int]:
@@ -20,6 +21,9 @@ async def upload_media_files_to_vk_servers(medias: Iterable[Media]) -> list[int]
     ids = await upload_medias(medias)
     for media in medias:
         await delete_file(f"{media.filename}")
+        if media.audio_url:
+            await delete_file(f"audio_{media.filename[6:]}")
+            await delete_file(f"{media.filename[6:]}")
     return ids
 
 
@@ -28,6 +32,9 @@ async def upload_medias(medias: Iterable[Media]) -> list[int]:
     и возвращает их ID на сервере."""
     ids = []
     if medias[0].file_type == "video":
+        cmd = 'ffmpeg -y -i %s -i %s -c:v copy -c:a aac -strict experimental %s' % (f"{BASE_DIR}/media/{medias[0].filename}", f"{BASE_DIR}/media/audio_{medias[0].filename}", f"{BASE_DIR}/media/result{medias[0].filename}")
+        subprocess.call(cmd, shell=True)
+        medias[0].filename = "result" + medias[0].filename
         upload_url = await api.video.save(is_private=1,
                                           privacy_view=0)
         server_info = upload_photo_to_server(upload_url.upload_url, medias)

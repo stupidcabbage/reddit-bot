@@ -55,5 +55,5 @@ def _make_attachment_string(post: Post,
     for id in ids_media:
         attachments += f"{file_type}{vk_owner_id}_{id},"
     return attachments[:-1]
-  
- 
+
+

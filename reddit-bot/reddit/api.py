@@ -1,5 +1,5 @@
 from typing import Iterable
-
+import subprocess
 from services.flairs import Flair
 from services.logging import debug_logger, info_logging
 from services.medias import Media, insert_media
@@ -34,10 +34,12 @@ async def _get_media_from_post(post, db_post) -> Iterable[Media] | None:
     media_url = []
     if post.is_video:
         url = post.media["reddit_video"]["fallback_url"]
+        audio_url = url[:url.rfind('/')] + '/DASH_AUDIO_128.mp4'
         filename = post.media["reddit_video"]["scrubber_media_url"].split(
                 "/")[-1]
         media_url.append(Media(
             media_url=url,
+            audio_url=audio_url,
             filename=filename,
             file_type="video"))
     elif hasattr(post, "is_gallery") and post.is_gallery:

@@ -1,5 +1,5 @@
-import aiofiles
 import aiohttp
+import aiofiles
 from config import BASE_DIR
 from reddit.api import Media
 
@@ -8,7 +8,9 @@ async def download_medias(medias: list[Media]) -> None:
     """Скачивает и сохраняет множество медиафайлов из источников."""
     for media in medias:
         await download(media.media_url, media.filename)
-    
+        if media.audio_url:
+            await download(media.audio_url, f"audio_{media.filename}")
+
 
 async def download(url: str, filename: str) -> None:
     """Скачивает и сохраняет файл из источника."""

@@ -9,7 +9,7 @@ class Media:
     filename: str
     file_type: str
     server_media_id: int | None = None
-
+    audio_url: str | None = None
 
 async def insert_media(post, media: Media):
     await execute(
