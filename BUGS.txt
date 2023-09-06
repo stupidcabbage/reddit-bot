@@ -1,1 +1,0 @@
-reddit.api: если у поста нет flair то создается flair[None] а не None

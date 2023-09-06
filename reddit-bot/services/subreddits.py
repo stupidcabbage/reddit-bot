@@ -4,6 +4,10 @@ from typing import Iterable
 from db import fetch_all
 from services.flairs import Flair
 from services.logging import debug_logger, info_logging
+from services.exceptions import SubredditsExists
+
+
+LAST_SAME_SUBREDDIT = -1
 
 
 @dataclass
@@ -23,7 +27,7 @@ async def get_all_subreddits_without_posts() -> Iterable[Subreddit] | None:
     """
     subreddits = await fetch_all(sql)
     if not subreddits:
-        return None
+        raise SubredditsExists
  
     return await _build_subreddits(subreddits)
 

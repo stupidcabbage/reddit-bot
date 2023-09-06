@@ -32,3 +32,8 @@ create table if not exists medias(
   post_id integer,
   foreign key(post_id) references posts(id)
 );
+
+insert into subreddits(name) values
+("FortniteLeaks"),
+("FortniteMemes"),
+("FortNiteBR");

@@ -1,5 +1,4 @@
 from typing import Iterable
-import subprocess
 from services.flairs import Flair
 from services.logging import debug_logger, info_logging
 from services.medias import Media, insert_media
@@ -17,11 +16,12 @@ async def get_new_posts_from_subreddit(subreddit: Subreddit,
     reddit_posts = await reddit.subreddit(subreddit.name)
     posts = []
     async for post in reddit_posts.new(limit=limit):
-        title = await _(post.title)
-        description = await _(post.selftext)
-        flair = Flair(post.link_flair_text)
+        db_post = await insert_post(
+                await _(post.title),
+                await _(post.selftext),
+                subreddit,
+                Flair(post.link_flair_text))
 
-        db_post = await insert_post(title, description, subreddit, flair)
         media = await _get_media_from_post(post, db_post)
         db_post.media = media
         posts.append(db_post)

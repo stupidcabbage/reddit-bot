@@ -22,7 +22,7 @@ class Post:
 async def insert_post(title: str,
                       description: str,
                       subreddit: Subreddit,
-                      flair: Flair) -> Post | None:
+                      flair: Flair) -> Post:
    await execute(
         """
         INSERT OR IGNORE INTO posts (title, description,

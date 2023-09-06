@@ -10,9 +10,10 @@ async def main():
     while True:
         subreddits = await get_subr()
         for subreddit in subreddits:
-            posts = await gs(subreddit, limit=5)
+            posts = await gs(subreddit, limit=50)
             for post in posts:
                 await publish_post(post)
         time.sleep(10)
+
 
 asyncio.get_event_loop().run_until_complete(main())

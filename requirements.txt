@@ -37,8 +37,10 @@ prawcore==2.3.0
 pycodestyle==2.11.0
 pydantic==1.10.12
 pydantic_core==2.4.0
+pyee==11.0.0
 pyflakes==3.1.0
 python-dotenv==1.0.0
+python-ffmpeg==2.0.4
 requests==2.31.0
 requests-toolbelt==1.0.0
 rfc3986==1.5.0
