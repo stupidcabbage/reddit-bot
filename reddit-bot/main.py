@@ -10,7 +10,7 @@ async def main():
     while True:
         subreddits = await get_subr()
         for subreddit in subreddits:
-            posts = await gs(subreddit, limit=50)
+            posts = await gs(subreddit, limit=1)
             for post in posts:
                 await publish_post(post)
         time.sleep(10)
