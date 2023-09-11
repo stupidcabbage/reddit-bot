@@ -4,7 +4,7 @@ import time
 from reddit.api import get_new_posts_from_subreddit as gs
 from services.subreddits import get_all_subreddits_without_posts as get_subr
 from vk.wall import publish_post
-
+from db import close_db
 
 async def main():
     while True:
@@ -16,4 +16,9 @@ async def main():
         time.sleep(10)
 
 
-asyncio.get_event_loop().run_until_complete(main())
+if __name__ == "__main__":
+    try:
+        asyncio.get_event_loop().run_until_complete(main())
+    finally:
+        close_db()
+
