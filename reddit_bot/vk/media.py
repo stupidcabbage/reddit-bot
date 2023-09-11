@@ -1,12 +1,12 @@
 from typing import Iterable
 
 import requests
-from config import BASE_DIR, VK_GROUP_ID
+from reddit_bot.config import BASE_DIR, VK_GROUP_ID
 from requests_toolbelt.multipart.encoder import MultipartEncoder
-from services.download_photo import download_medias
-from services.file import delete_file
-from services.medias import Media
-from vk.vk_config import api
+from reddit_bot.services.download_photo import download_medias
+from reddit_bot.services.file import delete_file
+from reddit_bot.services.medias import Media
+from reddit_bot.vk.vk_config import api
 import subprocess
 
 

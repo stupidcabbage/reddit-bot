@@ -5,6 +5,7 @@ description = "Make simple posts from reddit"
 authors = ["stupidcabbage <vanya@gutche.ru>"]
 license = "MIT License"
 readme = "README.md"
+packages = [{include = "reddit_bot"}]
 
 [tool.poetry.dependencies]
 python = "^3.11"

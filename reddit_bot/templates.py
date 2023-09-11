@@ -1,4 +1,4 @@
-import config
+from reddit_bot import config
 import jinja2
 
 

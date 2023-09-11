@@ -1,6 +1,6 @@
 import os
 
-from config import BASE_DIR
+from reddit_bot.config import BASE_DIR
 
 
 async def delete_file(filename: str, path: str = f"{BASE_DIR}/media/") -> None:

@@ -1,12 +1,12 @@
 from typing import Iterable
-from services.flairs import Flair
-from services.logging import debug_logger, info_logging
-from services.medias import Media, insert_media
-from services.posts import Post, insert_post
-from services.subreddits import Subreddit
-from services.translate import translate_text as _
+from reddit_bot.services.flairs import Flair
+from reddit_bot.services.logging import debug_logger, info_logging
+from reddit_bot.services.medias import Media, insert_media
+from reddit_bot.services.posts import Post, insert_post
+from reddit_bot.services.subreddits import Subreddit
+from reddit_bot.services.translate import translate_text as _
 
-from . import reddit
+from reddit_bot.reddit import reddit
 
 
 @info_logging

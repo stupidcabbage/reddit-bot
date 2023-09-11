@@ -1,10 +1,10 @@
 from dataclasses import dataclass
 from typing import Iterable
 
-from db import fetch_all
-from services.flairs import Flair
-from services.logging import debug_logger, info_logging
-from services.exceptions import SubredditsExists
+from reddit_bot.db import fetch_all
+from reddit_bot.services.flairs import Flair
+from reddit_bot.services.logging import debug_logger, info_logging
+from reddit_bot.services.exceptions import SubredditsExists
 
 
 LAST_SAME_SUBREDDIT = -1

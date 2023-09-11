@@ -1,6 +1,6 @@
 from dataclasses import dataclass
 
-from db import execute
+from reddit_bot.db import execute
 
 
 @dataclass

@@ -2,7 +2,7 @@ import sys
 
 import decorator
 from loguru import logger
-from services.exceptions import PostExists
+from reddit_bot.services.exceptions import PostExists
 
 logger.remove()
 logger.add(sys.stderr, level="ERROR")

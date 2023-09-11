@@ -1,5 +1,5 @@
 import asyncpraw
-from config import (REDDIT_CLIENT_ID, REDDIT_REDIRECT_URI, REDDIT_SECRET_ID,
+from reddit_bot.config import (REDDIT_CLIENT_ID, REDDIT_REDIRECT_URI, REDDIT_SECRET_ID,
                     REDDIT_USER_AGENT)
 
 reddit = asyncpraw.Reddit(

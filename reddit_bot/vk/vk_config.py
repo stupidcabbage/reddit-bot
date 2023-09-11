@@ -1,6 +1,6 @@
 import sys
 
-from config import VK_TOKEN
+from reddit_bot.config import VK_TOKEN
 from loguru import logger
 from vkbottle import API
 

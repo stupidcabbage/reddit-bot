@@ -1,13 +1,13 @@
 from os import path
 from typing import Iterable, LiteralString
 
-from config import TEMPLATES_DIR, VK_GROUP_ID, VK_OWNER_ID, VK_USER_ID
-from services.exceptions import PostExists
-from services.logging import debug_logger, info_logging
-from services.posts import Post, assign_post_is_published, is_post_published
-from templates import render_template
-from vk.media import upload_media_files_to_vk_servers
-from vk.vk_config import api
+from reddit_bot.config import TEMPLATES_DIR, VK_GROUP_ID, VK_OWNER_ID, VK_USER_ID
+from reddit_bot.services.exceptions import PostExists
+from reddit_bot.services.logging import debug_logger, info_logging
+from reddit_bot.services.posts import Post, assign_post_is_published, is_post_published
+from reddit_bot.templates import render_template
+from reddit_bot.vk.media import upload_media_files_to_vk_servers
+from reddit_bot.vk.vk_config import api
 
 
 @debug_logger

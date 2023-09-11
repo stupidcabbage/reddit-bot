@@ -1,10 +1,10 @@
 import asyncio
 import time
 
-from reddit.api import get_new_posts_from_subreddit as gs
-from services.subreddits import get_all_subreddits_without_posts as get_subr
-from vk.wall import publish_post
-from db import close_db
+from reddit_bot.reddit.api import get_new_posts_from_subreddit as gs
+from reddit_bot.services.subreddits import get_all_subreddits_without_posts as get_subr
+from reddit_bot.vk.wall import publish_post
+from reddit_bot.db import close_db
 
 async def main():
     while True:

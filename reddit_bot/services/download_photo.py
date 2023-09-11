@@ -1,7 +1,7 @@
 import aiohttp
 import aiofiles
-from config import BASE_DIR
-from reddit.api import Media
+from reddit_bot.config import BASE_DIR
+from reddit_bot.reddit.api import Media
 
 
 async def download_medias(medias: list[Media]) -> None:
