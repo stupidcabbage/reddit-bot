@@ -8,6 +8,7 @@ from reddit_bot.services.translate import translate_text as _
 
 from reddit_bot.reddit import reddit
 
+import loguru
 
 @info_logging
 async def get_new_posts_from_subreddit(subreddit: Subreddit,
@@ -24,7 +25,8 @@ async def get_new_posts_from_subreddit(subreddit: Subreddit,
 
         media = await _get_media_from_post(post, db_post)
         db_post.media = media
-        posts.append(db_post)
+        if _is_post_flair_exists(subreddit, db_post):
+            posts.append(db_post)
     return posts
 
 
@@ -60,3 +62,13 @@ async def _get_media_from_post(post, db_post) -> Iterable[Media] | None:
     for media in media_url:
         await insert_media(db_post, media)
     return media_url
+
+
+def _is_post_flair_exists(subreddit: Subreddit,
+                          post: Post) -> bool:
+    loguru.logger.warning(post.flair)
+    loguru.logger.warning(subreddit.flairs)
+    loguru.logger.warning(Flair("all") in subreddit.flairs)
+    return (subreddit.flairs and post.flair in subreddit.flairs
+            or Flair("all") in subreddit.flairs)
+

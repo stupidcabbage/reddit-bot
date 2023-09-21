@@ -5,7 +5,8 @@ create table if not exists subreddits(
 
 
 create table if not exists flairs(
-  name text primary key,
+  id integer primary key autoincrement,
+  name text,
   subreddit_id integer,
   foreign key(subreddit_id) references subreddits(id)
 );
@@ -37,3 +38,23 @@ insert into subreddits(name) values
 ("FortniteLeaks"),
 ("FortniteMemes"),
 ("FortNiteBR");
+
+
+/* FortniteLeaks */
+insert into flairs(subreddit_id, name) values
+(1, "all");
+
+/* FortniteMemes */
+insert into flairs(subreddit_id, name) values
+(2, "all");
+
+/* FortNiteBR */
+insert into flairs(subreddit_id, name) values
+(3, "EPIC"),
+(3, "EPIC REPLY"),
+(3, "MOD"),
+(3, "MEDIA"),
+(3, "CLIP 🎬"),
+(3, "STREAMER"),
+(3, "HUMOR"),
+(3, "TUTORIAL");
