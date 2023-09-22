@@ -5,7 +5,7 @@ from reddit_bot.reddit.api import get_new_posts_from_subreddit as gs
 from reddit_bot.services.subreddits import get_all_subreddits_without_posts as get_subr
 from reddit_bot.vk.wall import publish_post
 from reddit_bot.db import close_db
-
+from reddit_bot.test import test_funcion
 
 async def main():
     while True:
@@ -23,3 +23,7 @@ if __name__ == "__main__":
     finally:
         close_db()
 
+
+
+# if __name__ == "__main__":
+#     asyncio.get_event_loop().run_until_complete(test_funcion())

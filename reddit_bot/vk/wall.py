@@ -1,7 +1,7 @@
 from os import path
 from typing import Iterable, LiteralString
 
-from reddit_bot.config import TEMPLATES_DIR, VK_GROUP_ID, VK_OWNER_ID, VK_USER_ID
+from reddit_bot.config import TEMPLATES_DIR, VK_OWNER_ID, VK_USER_ID, VK_BOT_OWNER_ID
 from reddit_bot.services.exceptions import PostExists
 from reddit_bot.services.logging import debug_logger, info_logging
 from reddit_bot.services.posts import Post, assign_post_is_published, is_post_published
@@ -26,11 +26,15 @@ async def _publish_post(post: Post,
             ids = await upload_media_files_to_vk_servers(post.media)
             attachments = _make_attachment_string(post, ids)
         message = await _render_message(post)
-        await api.wall.post(owner_id=-187577519,
+        await api.wall.post(owner_id=VK_OWNER_ID,
                             message=message,
                             attachments=attachments)
     finally:
         await assign_post_is_published(post)
+
+
+async def send_message_to_user(message: str, user_id: int = VK_BOT_OWNER_ID):
+    await api.messages.send(peer_id=user_id, message=message, random_id=0)
 
 
 @debug_logger
